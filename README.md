@@ -1,4 +1,8 @@
 # ihniwid
+
+i have no idea what i'm doing
+----------
+
 A simple tool that will try to find answers on [stackoverflow](https://stackoverflow.com) for you.
 
 ## Participants:
@@ -6,7 +10,7 @@ A simple tool that will try to find answers on [stackoverflow](https://stackover
 * Vladimir Kurilin, 620, login: vkurilin
 
 ## Formulation of the problem
-Create a tool that automates the basic search for a solution to a stackoverflow problem. 
+Create a tool that automates the basic search for a solution of your problem on a stackoverflow. 
 
 Rough equivalent for 
 
