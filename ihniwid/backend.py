@@ -71,6 +71,3 @@ def chunks(it, size: int):
     if l:
         # The last chunk may be shorter than the other ones.
         yield l
-
-
-foo('undefined is not a function')

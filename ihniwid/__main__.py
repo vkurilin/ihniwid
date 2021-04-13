@@ -1,7 +1,7 @@
 import sys
 
-from ihniwid.ihniwid import fib
+from ihniwid.backend import foo
 
 if __name__ == "__main__":
-    n = int(sys.argv[1])
-    print(fib(n))
+    error_description = sys.argv[1]
+    foo(error_description)
