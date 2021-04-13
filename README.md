@@ -23,3 +23,16 @@ The base intended interface for displaying search results is the html-code which
 
 Intended use case:
 ![go-fuck-yourself](https://github.com/vkurilin/ihniwid/blob/main/description/interface-model.png)
+
+## Setup
+```sh
+# Install dependencies
+pipenv install --dev
+
+# Setup pre-commit and pre-push hooks
+pipenv run pre-commit install -t pre-commit
+pipenv run pre-commit install -t pre-push
+```
+
+## Credits
+This package was created with Cookiecutter and the [sourcery-ai/python-best-practices-cookiecutter](https://github.com/sourcery-ai/python-best-practices-cookiecutter) project template.

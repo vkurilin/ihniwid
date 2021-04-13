@@ -43,7 +43,7 @@ def extract_code_blocks(answer):
 
 
 def foo(term: str):
-    params = { 'q': term }
+    params = {'q': term}
     response = requests.get(f'https://stackoverflow.com/search', params=params)
     if 'nocaptcha' in response.url:
         print('Oh noes! Please solve this captcha:', response.url, file=sys.stderr)
