@@ -1,0 +1,2700 @@
+====
+var a = ["a", "b", "c"];
+a.forEach(function(entry) {
+    console.log(entry);
+});
+====
+var index;
+var a = ["a", "b", "c"];
+for (index = 0; index < a.length; ++index) {
+    console.log(a[index]);
+}
+====
+var index, len;
+var a = ["a", "b", "c"];
+for (index = 0, len = a.length; index < len; ++index) {
+    console.log(a[index]);
+}
+====
+var index;
+var a = ["a", "b", "c"];
+for (index = a.length - 1; index >= 0; --index) {
+    console.log(a[index]);
+}
+====
+let a = ["a", "b", "c"];
+for (let index = 0; index < a.length; ++index) {
+    let value = a[index];
+    console.log(index, value);
+}
+//console.log(index);   // would cause "ReferenceError: index is not defined"
+//console.log(value);   // would cause "ReferenceError: value is not defined"
+
+====
+let a = ["a", "b", "c"];
+for (let index = 0; index < a.length; ++index) {
+    let value = a[index];
+    console.log(index, value);
+}
+try {
+    console.log(index);
+} catch (e) {
+    console.error(e);   // "ReferenceError: index is not defined"
+}
+try {
+    console.log(value);
+} catch (e) {
+    console.error(e);   // "ReferenceError: value is not defined"
+}
+====
+let divs = document.querySelectorAll("div");
+for (let index = 0; index < divs.length; ++index) {
+    divs[index].addEventListener('click', e => {
+        console.log("Index is: " + index);
+    });
+}
+
+====
+let divs = document.querySelectorAll("div");
+for (let index = 0; index < divs.length; ++index) {
+    divs[index].addEventListener('click', e => {
+        console.log("Index is: " + index);
+    });
+}
+====
+<div>zero</div>
+<div>one</div>
+<div>two</div>
+<div>three</div>
+<div>four</div>
+====
+// `a` is a sparse array
+var key;
+var a = [];
+a[0] = "a";
+a[10] = "b";
+a[10000] = "c";
+for (key in a) {
+    if (a.hasOwnProperty(key)  &&        // These checks are
+        /^0$|^[1-9]\d*$/.test(key) &&    // explained
+        key <= 4294967294                // below
+        ) {
+        console.log(a[key]);
+    }
+}
+====
+// Utility function for antiquated environments without `forEach`
+var hasOwn = Object.prototype.hasOwnProperty;
+var rexNum = /^0$|^[1-9]\d*$/;
+function sparseEach(array, callback, thisArg) {
+    var index;
+    for (var key in array) {
+        index = +key;
+        if (hasOwn.call(a, key) &&
+            rexNum.test(key) &&
+            index <= 4294967294
+            ) {
+            callback.call(thisArg, array[key], index, array);
+        }
+    }
+}
+
+var a = [];
+a[5] = "five";
+a[10] = "ten";
+a[100000] = "one hundred thousand";
+a.b = "bee";
+
+sparseEach(a, function(value, index) {
+    console.log("Value at " + index + " is " + value);
+});
+====
+const a = ["a", "b", "c"];
+for (const val of a) {
+    console.log(val);
+}
+====
+const a = ["a", "b", "c"];
+const it = a.values();
+let entry;
+while (!(entry = it.next()).done) {
+    console.log(entry.value);
+}
+====
+ Array.prototype.forEach.call(node.childNodes, function(child) {
+     // Do something with `child`
+ });
+
+====
+ // (This is all presumably in some scoping function)
+ var forEach = Array.prototype.forEach;
+
+ // Then later...
+ forEach.call(node.childNodes, function(child) {
+     // Do something with `child`
+ });
+
+====
+ var trueArray = Array.prototype.slice.call(arrayLikeObject);
+
+====
+ var divs = Array.prototype.slice.call(document.querySelectorAll("div"));
+
+====
+ var trueArray = [...iterableObject];
+
+====
+ var divs = [...document.querySelectorAll("div")];
+
+====
+ var divs = Array.from(document.querySelectorAll("div"));
+
+====
+ // Arrow function (ES2015):
+ var divs = Array.from(document.querySelectorAll(".some-class"), element => element.tagName);
+
+ // Standard function (since `Array.from` can be shimmed):
+ var divs = Array.from(document.querySelectorAll(".some-class"), function(element) {
+     return element.tagName;
+ });
+
+====
+>>> a = dict(x=2, y=3)
+>>> b = dict(y=4, z=5)
+>>> c = 'No Effect' if a.update(b) else a
+>>> c
+{'x': 2, 'y': 4, 'z': 5}
+
+====
+>>> c = a.update(b) or a
+
+====
+>>> a = dict(x=2, y=3)
+>>> b = dict(y=4, z=5)
+>>> a, c = a.copy(), a.update(b) or a
+>>> c
+{'x': 2, 'y': 4, 'z': 5}
+>>> d = dict(m=10, n=11)
+>>> a, c = a.copy(), a.update(b) or a.update(d) or a
+>>> c
+{'x': 2, 'y': 4, 'z': 5, 'm': 10, 'n': 11}
+>>> a
+{'x': 2, 'y': 4}
+
+====
+try {
+  console.log("Success: ", add(1, 1));
+} catch(e) {
+  console.log("ERROR: " + e);
+}
+
+function add(a, b){
+  return a + b;
+}
+====
+try {
+  console.log("Success: ", add(1, 1));
+} catch(e) {
+  console.log("ERROR: " + e);
+}
+
+var add=function(a, b){
+  return a + b;
+}
+====
+var add = undefined;
+
+try {
+  console.log("Success: ", add(1, 1));
+} catch(e) {
+  console.log("ERROR: " + e);
+}
+
+add = function(a, b){
+  return a + b;
+}
+====
+try {
+  console.log("Success: ", add(1, 1));
+} catch(e) {
+  console.log("ERROR: " + e);
+}
+
+var add=function add(a, b){
+  return a + b;
+}
+====
+function foobar(a, b){}
+
+console.log(foobar.name);
+====
+var a = function foobar(){};
+
+console.log(a.name);
+====
+var a = function(){};
+var b = (function(){ return function(){} });
+
+console.log(a.name);
+console.log(b.name);
+====
+console.log((function(){}).name === "");
+====
+var a = function(){};
+var b = a;
+var c = b;
+
+console.log(a.name);
+console.log(b.name);
+console.log(c.name);
+====
+(function(){
+    "use strict";
+    var foobar = function(){}; // initial value
+    try {
+        foobar = "Hello World!"; // new value
+        console.log("[no error]");
+    } catch(error) {
+        console.log("ERROR: " + error.message);
+    }
+    console.log(foobar, window.foobar);
+})();
+====
+(function(){
+    "use strict";
+    const foobar = function(){}; // initial value
+    try {
+        foobar = "Hello World!"; // new value
+        console.log("[no error]");
+    } catch(error) {
+        console.log("ERROR: " + error.message);
+    }
+    console.log(foobar, window.foobar);
+})();
+====
+(function(){
+    "use strict";
+    function foobar(){}; // initial value
+    try {
+        foobar = "Hello World!"; // new value
+        console.log("[no error]");
+    } catch(error) {
+        console.log("ERROR: " + error.message);
+    }
+    console.log(foobar, window.foobar);
+})();
+====
+try {
+  // typeof will simply return "undefined" if the variable does not exist
+  if (typeof add !== "undefined") {
+    add(1, 1); // just to prove it
+    console.log("Not a block");
+  }else if(add===undefined){ // this throws an exception if add doesn't exist
+    console.log('Behaves like var add=function(a,b){return a+b}');
+  }
+} catch(e) {
+  console.log("Is a block");
+}
+var add=function(a, b){return a + b}
+====
+try {
+  // typeof will simply return "undefined" if the variable does not exist
+  if (typeof add !== "undefined") {
+    add(1, 1); // just to prove it
+    console.log("Not a block");
+  }else if(add===undefined){ // this throws an exception if add doesn't exist
+    console.log('Behaves like var add=function(a,b){return a+b}')
+  }
+} catch(e) {
+  console.log("Is a block");
+}
+function add(a, b){
+  return a + b;
+}
+====
+try {
+  // typeof will simply return "undefined" if the variable does not exist
+  if (typeof add !== "undefined") {
+    add(1, 1); // just to prove it
+    console.log("Not a block");
+  }else if(add===undefined){ // this throws an exception if add doesn't exist
+    console.log('Behaves like var add=function(a,b){return a+b}')
+  }
+} catch(e) {
+  console.log("Is a block");
+}
+(function () {
+    function add(a, b){
+      return a + b;
+    }
+})();
+====
+try {
+  // typeof will simply return "undefined" if the variable does not exist
+  if (typeof add !== "undefined") {
+    add(1, 1); // just to prove it
+    console.log("Not a block");
+  }else if(add===undefined){ // this throws an exception if add doesn't exist
+    console.log('Behaves like var add=function(a,b){return a+b}')
+  }
+} catch(e) {
+  console.log("Is a block");
+}
+{
+    function add(a, b){
+      return a + b;
+    }
+}
+====
+try {
+  // typeof will simply return "undefined" if the variable does not exist
+  if (typeof add !== "undefined") {
+    add(1, 1); // just to prove it
+    console.log("Not a block");
+  }else if(add===undefined){ // this throws an exception if add doesn't exist
+    console.log('Behaves like var add=function(a,b){return a+b}')
+  }
+} catch(e) {
+  console.log("Is a block");
+}
+(() => {
+    var add=function(a, b){
+      return a + b;
+    }
+})();
+====
+try {
+  // typeof will simply return "undefined" if the variable does not exist
+  if (typeof add !== "undefined") {
+    add(1, 1); // just to prove it
+    console.log("Not a block");
+  }else if(add===undefined){ // this throws an exception if add doesn't exist
+    console.log('Behaves like var add=function(a,b){return a+b}')
+  }
+} catch(e) {
+  console.log("Is a block");
+}
+(() => {
+    function add(a, b){
+      return a + b;
+    }
+})();
+====
+x.update(y) or x
+
+====
+(x.update(y), x)[-1]
+
+====
+(lambda x: x.update(y) or x)({'a': 1, 'b': 2})
+
+====
+(x := {'a': 1, 'b': 2}).update(y) or x
+
+====
+(lambda z: z.update(y) or z)(x.copy())
+
+====
+z = x | y          # NOTE: 3.9+ ONLY
+
+====
+z = {**x, **y}
+
+====
+def merge_two_dicts(x, y):
+    z = x.copy()   # start with x's keys and values
+    z.update(y)    # modifies z with y's keys and values & returns None
+    return z
+
+====
+z = merge_two_dicts(x, y)
+
+====
+x = {'a': 1, 'b': 2}
+y = {'b': 3, 'c': 4}
+
+====
+>>> z
+{'a': 1, 'b': 3, 'c': 4}
+
+====
+z = {**x, **y}
+
+====
+z = {**x, 'foo': 1, 'bar': 2, **y}
+
+====
+>>> z
+{'a': 1, 'b': 3, 'foo': 1, 'bar': 2, 'c': 4}
+
+====
+z = x.copy()
+z.update(y) # which returns None since it mutates z
+
+====
+def merge_two_dicts(x, y):
+    """Given two dictionaries, merge them into a new dict as a shallow copy."""
+    z = x.copy()
+    z.update(y)
+    return z
+
+====
+z = merge_two_dicts(x, y)
+
+====
+def merge_dicts(*dict_args):
+    """
+    Given any number of dictionaries, shallow copy and merge into a new dict,
+    precedence goes to key-value pairs in latter dictionaries.
+    """
+    result = {}
+    for dictionary in dict_args:
+        result.update(dictionary)
+    return result
+
+====
+z = merge_dicts(a, b, c, d, e, f, g) 
+
+====
+z = dict(x.items() + y.items())
+
+====
+>>> c = dict(a.items() + b.items())
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: unsupported operand type(s) for +: 'dict_items' and 'dict_items'
+
+====
+>>> c = dict(a.items() | b.items())
+
+====
+>>> x = {'a': []}
+>>> y = {'b': []}
+>>> dict(x.items() | y.items())
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: unhashable type: 'list'
+
+====
+>>> x = {'a': 2}
+>>> y = {'a': 1}
+>>> dict(x.items() | y.items())
+{'a': 2}
+
+====
+z = dict(x, **y)
+
+====
+>>> c = dict(a, **b)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: keyword arguments must be strings
+
+====
+dict(a=1, b=10, c=11)
+
+====
+{'a': 1, 'b': 10, 'c': 11}
+
+====
+>>> foo(**{('a', 'b'): None})
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: foo() keywords must be strings
+>>> dict(**{('a', 'b'): None})
+{('a', 'b'): None}
+
+====
+from copy import deepcopy
+
+def dict_of_dicts_merge(x, y):
+    z = {}
+    overlapping_keys = x.keys() & y.keys()
+    for key in overlapping_keys:
+        z[key] = dict_of_dicts_merge(x[key], y[key])
+    for key in x.keys() - overlapping_keys:
+        z[key] = deepcopy(x[key])
+    for key in y.keys() - overlapping_keys:
+        z[key] = deepcopy(y[key])
+    return z
+
+====
+>>> x = {'a':{1:{}}, 'b': {2:{}}}
+>>> y = {'b':{10:{}}, 'c': {11:{}}}
+>>> dict_of_dicts_merge(x, y)
+{'b': {2: {}, 10: {}}, 'a': {1: {}}, 'c': {11: {}}}
+
+====
+{k: v for d in dicts for k, v in d.items()} # iteritems in Python 2.7
+
+====
+dict((k, v) for d in dicts for k, v in d.items()) # iteritems in Python 2
+
+====
+from itertools import chain
+z = dict(chain(x.items(), y.items())) # iteritems in Python 2
+
+====
+from timeit import repeat
+from itertools import chain
+
+x = dict.fromkeys('abcdefg')
+y = dict.fromkeys('efghijk')
+
+def merge_two_dicts(x, y):
+    z = x.copy()
+    z.update(y)
+    return z
+
+min(repeat(lambda: {**x, **y}))
+min(repeat(lambda: merge_two_dicts(x, y)))
+min(repeat(lambda: {k: v for d in (x, y) for k, v in d.items()}))
+min(repeat(lambda: dict(chain(x.items(), y.items()))))
+min(repeat(lambda: dict(item for d in (x, y) for item in d.items())))
+
+====
+>>> min(repeat(lambda: {**x, **y}))
+1.0804965235292912
+>>> min(repeat(lambda: merge_two_dicts(x, y)))
+1.636518670246005
+>>> min(repeat(lambda: {k: v for d in (x, y) for k, v in d.items()}))
+3.1779992282390594
+>>> min(repeat(lambda: dict(chain(x.items(), y.items()))))
+2.740647904574871
+>>> min(repeat(lambda: dict(item for d in (x, y) for item in d.items())))
+4.266070580109954
+
+====
+$ uname -a
+Linux nixos 4.19.113 #1-NixOS SMP Wed Mar 25 07:06:15 UTC 2020 x86_64 GNU/Linux
+
+====
+var boo ='lala';
+
+function check(){
+  if(this['foo']){
+        console.log('foo is here');}
+  else{
+        console.log('have no foo');
+      }
+
+  if(this['boo']){
+        console.log('boo is here');}
+  else{
+        console.log('have no boo');
+      }
+}
+
+check();
+====
+>>> from collections import ChainMap
+>>> x = {'a':1, 'b': 2}
+>>> y = {'b':10, 'c': 11}
+>>> z = dict(ChainMap({}, y, x))
+>>> for k, v in z.items():
+        print(k, '-->', v)
+    
+a --> 1
+b --> 10
+c --> 11
+
+====
+>>> x = {'a':1, 'b': 2}
+>>> y = {'b':10, 'c': 11}
+>>> {**x, **y}
+{'a': 1, 'b': 10, 'c': 11}
+
+====
+>>> x = {'a':1, 'b': 2}
+>>> y = {'b':10, 'c': 11}
+>>> x | y
+{'a': 1, 'b': 10, 'c': 11}
+
+====
+>>> d = {'a': 1, 'b': 2}
+>>> e = {'a': 9, 'c': 3}
+>>> d | e
+{'a': 9, 'b': 2, 'c': 3}
+
+====
+>>> e |= d    # e = e | d
+>>> e
+{'a': 1, 'c': 3, 'b': 2}
+
+====
+z = dict(list(x.items()) + list(y.items()))
+
+====
+>>> x = {'a':1, 'b': 2}
+>>> y = {'b':10, 'c': 11}
+>>> z = dict(list(x.items()) + list(y.items()))
+>>> z
+{'a': 1, 'c': 11, 'b': 10}
+
+
+====
+>>> z = dict(x.items() + y.items())
+>>> z
+{'a': 1, 'c': 11, 'b': 10}
+
+====
+x = {'a':1, 'b': 2}
+y = {'b':10, 'c': 11}
+z = x | y
+print(z)
+
+====
+{'a': 1, 'c': 11, 'b': 10}
+
+====
+>>> pycon = {2016: "Portland", 2018: "Cleveland"}
+>>> europython = {2017: "Rimini", 2018: "Edinburgh", 2019: "Basel"}
+
+>>> pycon | europython
+{2016: 'Portland', 2018: 'Edinburgh', 2017: 'Rimini', 2019: 'Basel'}
+
+>>> pycon |= europython
+>>> pycon
+{2016: 'Portland', 2018: 'Edinburgh', 2017: 'Rimini', 2019: 'Basel'}
+
+
+====
+>>> from collections import defaultdict
+>>> europe = defaultdict(lambda: "", {"Norway": "Oslo", "Spain": "Madrid"})
+>>> africa = defaultdict(lambda: "", {"Egypt": "Cairo", "Zimbabwe": "Harare"})
+
+>>> europe | africa
+defaultdict(<function <lambda> at 0x7f0cb42a6700>,
+  {'Norway': 'Oslo', 'Spain': 'Madrid', 'Egypt': 'Cairo', 'Zimbabwe': 'Harare'})
+
+>>> {**europe, **africa}
+{'Norway': 'Oslo', 'Spain': 'Madrid', 'Egypt': 'Cairo', 'Zimbabwe': 'Harare'}
+
+====
+>>> libraries = {
+...     "collections": "Container datatypes",
+...     "math": "Mathematical functions",
+... }
+>>> libraries |= {"zoneinfo": "IANA time zone support"}
+>>> libraries
+{'collections': 'Container datatypes', 'math': 'Mathematical functions',
+ 'zoneinfo': 'IANA time zone support'}
+
+====
+>>> libraries |= [("graphlib", "Functionality for graph-like structures")]
+>>> libraries
+{'collections': 'Container datatypes', 'math': 'Mathematical functions',
+ 'zoneinfo': 'IANA time zone support',
+ 'graphlib': 'Functionality for graph-like structures'}
+
+====
+from collections import Counter
+x = Counter({'a': 1, 'b': 2})
+y = Counter({'b': 10, 'c': 11})
+
+====
+Counter({'a': 1, 'b': 12, 'c': 11})
+
+====
+Step 1: Declare the function in another class.
+
+    export const myreport = (value) => {
+    color = value.color;
+    name = value.name;
+    
+    var mytext = name + " | " + color;
+    return mytext;
+    }
+
+Step 2:- Import that function which is needed to be used.
+
+    import {myreport} from '../../Test'
+
+Step 3:- Use that function.
+
+let val = { color: "red", name: "error" }
+var resultText = myreport(val)
+console.log("resultText :- ", resultText)
+
+====
+z = x.union(y)
+
+====
+z = x | y
+
+====
+// scripts-global.mix.js
+// Plugins - Global
+
+@import "global-plugins/headroom.js";
+@import "global-plugins/retina-1.1.0.js";
+@import "global-plugins/isotope.js";
+@import "global-plugins/jquery.fitvids.js";
+
+====
+var functionOne = function() {
+  // some code
+};
+
+====
+function functionTwo () {
+  // some code
+}
+
+====
+setTimeout(function timeHandler() { // <-- look, a name here!
+  console.log("I've waited 1 second");
+}, 1000);
+
+====
+(function IIFE(str) { // <-- look, always name IIFEs!
+  console.log(str); // "Hello!"
+})('Hello!');
+
+====
+// Third-party plugins / script (don't forget the full path is necessary)
+var FULL_PATH = '', s =
+[
+    FULL_PATH + 'plugins/script.js'      // Script example
+    FULL_PATH + 'plugins/jquery.1.2.js', // jQuery Library
+    FULL_PATH + 'plugins/crypto-js/hmac-sha1.js',      // CryptoJS
+    FULL_PATH + 'plugins/crypto-js/enc-base64-min.js'  // CryptoJS
+];
+
+function load(url)
+{
+    var ajax = new XMLHttpRequest();
+    ajax.open('GET', url, false);
+    ajax.onreadystatechange = function ()
+    {
+        var script = ajax.response || ajax.responseText;
+        if (ajax.readyState === 4)
+        {
+            switch(ajax.status)
+            {
+                case 200:
+                    eval.apply( window, [script] );
+                    console.log("library loaded: ", url);
+                    break;
+                default:
+                    console.log("ERROR: library not loaded: ", url);
+            }
+        }
+    };
+    ajax.send(null);
+}
+
+// Initialize a single load
+load('plugins/script.js');
+
+// Initialize a full load of scripts
+if (s.length > 0)
+{
+    for (i = 0; i < s.length; i++)
+    {
+        load(s[i]);
+    }
+}
+
+====
+document.write('<script src="myscript.js" type="text/javascript"></script>');
+
+====
+$.getScript("another_script.js");
+
+====
+(function () {
+    var li = document.createElement('script'); 
+    li.type = 'text/javascript'; 
+    li.src = "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"; 
+    li.async = true; 
+    var s = document.getElementsByTagName('script')[0]; 
+    s.parentNode.insertBefore(li, s);
+})();
+
+====
+$.cachedScript( "ajax/test.js" ).done(function( script, textStatus ) {
+  console.log( textStatus );
+});
+
+====
+<select class="choice">
+  <option value="script1" selected>Script-1</option>
+  <option value="script2">Script-2</option>
+</select>
+
+====
+  $(".choice").change(on_change);
+
+    var url = "https://example.com";
+    $.url1 = url + "/script1.js";
+    $.url2 = url + "/script2.js";
+
+  function on_change() {
+    if ($(".choice").val()=="script1") {
+        script1();
+    } else {
+         script2();
+    }
+
+    // script1
+    function script1() {
+      $.getScript($.url1, function( data, textStatus, jqxhr ) {
+          // Execute here
+      });
+    }
+
+    // script2
+    function script2() {
+       $.getScript($.url2, function( data, textStatus, jqxhr ) {
+          // Execute here
+      });
+    }
+
+====
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+
+  build() {
+    return new Person(this);
+  }
+}
+
+module.exports = Person;
+
+====
+import { Person } from 'Person';
+
+====
+const Person = require('./Person');
+
+====
+requirejs(["helper/util"], function(util) {
+    // This function is called when scripts/helper/util.js is loaded.
+    // If util.js calls define(), then this function is not fired until
+    // util's dependencies have loaded, and the util argument will hold
+    // the module value for "helper/util".
+});
+
+====
+jQuery.getScript('./another-script.js', function() {
+    // Call back after another-script loaded
+});
+
+====
+<script src="./first-script.js"></script>
+<script src="./second-script.js"></script>
+<script src="./third-script.js"></script>
+
+====
+const fs = require('fs');
+eval(fs.readFileSync('file.js') + '');
+
+====
+// main.js file
+
+export function add (a, b) {
+  return a + b;
+}
+
+export default function multiply (a, b) {
+  return a * b;
+}
+
+
+// test.js file
+
+import {add}, multiply from './main';   // For named exports between curly braces {export1, export2}
+                                        // For default exports without {}
+
+console.log(multiply(2, 2));  // logs 4
+
+console.log(add(1, 2));  // logs 3
+
+====
+// main.js file
+
+function add (a, b) {
+  return a + b;
+}
+
+module.exports = add;  // Here we add our 'add' function to the exports object
+
+
+// test.js file
+
+const add = require('./main');
+
+console.log(add(1,2));  // logs 3
+
+====
+<script src="https://raw.githack.com/anhr/loadScriptNodeJS/master/build/loadScript.js"></script>
+
+====
+<script src="https://raw.githack.com/anhr/loadScriptNodeJS/master/build/loadScript.min.js"></script>
+
+====
+onload: function () The onload event occurs when a script has been loaded. Default is undefined.
+
+onerror: function ( str, e ) The onerror event occurs when an error has been occurred. The default is undefined.
+
+    str: error details
+
+    e: event
+
+appendTo: The node to which the new script will be append. The default is the head node.
+
+====
+loadScript.async( "JavaScript.js",
+        {
+            onload: function () {
+
+                var str = 'file has been loaded successfully';
+                console.log( str );
+            },
+            onerror: function ( str, e ) {
+
+                console.error( str );
+            },
+        } );
+
+====
+(function() {
+var __ = {};
+this._ = function(name, callback) {
+    if(__[name]==undefined) {
+        __[name] = true;
+        var firstScript = document.getElementsByTagName('script')[0],
+          js = document.createElement('script');
+          js.src =  name;
+          js.onload = callback;
+          firstScript.parentNode.insertBefore(js, firstScript);
+    }
+}
+})();
+
+(new _('https://cdnjs.cloudflare.com/ajax/libs/Snowstorm/20131208/snowstorm-min.js', function() {
+ snowStorm.snowColor = '#99ccff';
+}));
+
+====
+<script type="module" src="script.js"></script>
+
+====
+import { hello } from './module.js';
+...
+// alert(hello());
+
+====
+export function hello() {
+    return "Hello World";
+}
+
+====
+
+    //jsMod.js file
+    JSMODOBJ = {};
+    JSMODOBJ.valueAddition = function(/* element value 1 */ val1,
+                                          /* element value 2 */ val2) {
+        return val1 + val2;
+    }
+
+
+====
+
+    //jsView.js file
+    JSVIEWOBJ = {};
+    JSVIEWOBJ.elementColour = function(/* element id to change colour */ id,
+                                          /* css colour classname */ col) {
+        document.getElementById(id).className = col;
+    }
+
+
+====
+
+    //jsContr.js file
+    JSCONTROBJ = {};
+    var jsMod = JSMODOBJ;
+    var jsView = JSVIEWOBJ;
+
+    JSCONTROBJ.changeColourByValue = function (val1, val2, id, clss) {
+        if (jsMod.valueAddition(val1,val2) !== 0) {
+            jsView.elementColour(id, clss);
+        }
+    }
+
+
+====
+<?php
+    echo "<script src = './js/dleafView.js'></script>
+        <script src = './js/dleafModule.js'></script>
+        <script src = './js/dleafContr.js'></script>";
+?>
+
+====
+function loadJs( url ){
+  return new Promise(( resolve, reject ) => {
+    if (document.querySelector( `head > script[ src = "${url}" ]`) !== null ){
+        console.warn( `script already loaded: ${url}` );
+        resolve();
+    }
+    const script = document.createElement( "script" );
+    script.src = url;
+    script.onload = resolve;
+    script.onerror = function( reason ){
+        // This can be useful for your error-handling code
+        reason.message = `error trying to load script ${url}`;
+        reject( reason );
+    };
+    document.head.appendChild( script );
+  });
+}
+
+====
+try { await loadJs("https://.../script.js"); }
+catch(error) { console.log(error); }
+
+====
+await loadJs( "https://.../script.js" ).catch( err => {} );
+
+====
+loadJs( "https://.../script.js" ).then( res => {} ).catch( err => {} );
+
+====
+# py2
+from itertools import chain, imap
+merge = lambda *args: dict(chain.from_iterable(imap(dict.iteritems, args)))
+
+# py3
+from itertools import chain
+merge = lambda *args: dict(chain.from_iterable(map(dict.items, args)))
+
+====
+>>> x = {'a':1, 'b': 2}
+>>> y = {'b':10, 'c': 11}
+>>> merge(x, y)
+{'a': 1, 'b': 10, 'c': 11}
+
+>>> z = {'c': 3, 'd': 4}
+>>> merge(x, y, z)
+{'a': 1, 'b': 10, 'c': 3, 'd': 4}
+
+====
+  const adventurer = {
+  name: 'Alice',
+  cat: {
+    name: 'Dinah'
+  }
+};
+
+const dogName = adventurer.dog?.name;
+console.log(dogName);
+// expected output: undefined
+
+console.log(adventurer.someNonExistentMethod?.());
+// expected output: undefined
+
+====
+if (response && response.data && response.data.someData && response.data.someData.someMoreData) {}
+
+====
+if( response?.data?.someData?.someMoreData) {}
+
+====
+let x: number | undefined;
+if (x !== undefined) x += 1; // this line will compile, because x is checked.
+x += 1; // this line will fail compilation, because x might be undefined.
+
+====
+    module.exports = {
+      log: function(string) {
+        if(console) console.log(string);
+      }
+      mylog: function(){
+        console.log('just for log test!');
+      }
+    }
+
+====
+    const mylog = require('./sub');
+
+    mylog.log('Hurray, it works! :)');
+    mylog.mylog();
+
+
+====
+function x() {
+  console.log(this)
+}.bind('string')
+
+x()
+====
+var x = function() {
+  console.log(this)
+}.bind('string')
+
+x()
+====
+x = {prop:{name:"sajad"}}
+
+console.log(x.prop?.name) // Output is: "sajad"
+console.log(x.prop?.lastName) // Output is: undefined
+
+====
+if(x.prop?.lastName) // The result of this 'if' statement is false and is not throwing an error
+
+====
+if(!ob.someProp){
+    console.log('someProp is falsy')
+}
+
+====
+if(ob.someProp === undefined){
+    console.log('someProp is undefined')
+}
+
+====
+if(typeof ob.someProp === 'undefined'){
+    console.log('someProp is undefined')
+}
+
+====
+if(!ob.hasOwnProperty('someProp')){
+    console.log('someProp is undefined')
+}
+
+====
+if (something == undefined)
+
+====
+var person = {
+    name: "John",
+    age: 28,
+    sex: "male"
+};
+
+alert(person.name); // "John"
+alert(person.fakeVariable); // undefined
+
+====
+function f() {
+    function g() {
+        console.log(x)
+    }
+    let x = 1
+    g()
+}
+f() // 1 because x is hoisted even though declared with `let`!
+====
+function f() {
+    var x = 1
+    let y = 1
+    const z = 1
+}
+console.log(typeof x) // undefined (because var has function scope!)
+console.log(typeof y) // undefined (because the body of the function is a block)
+console.log(typeof z) // undefined (because the body of the function is a block)
+====
+{
+    var x = 1
+    let y = 1
+    const z = 1
+}
+console.log(x) // 1
+console.log(typeof y) // undefined because `y` has block scope
+console.log(typeof z) // undefined because `z` has block scope
+====
+for(var x = 0; x < 5; ++x) {}
+console.log(x) // 5 (note this is outside the loop!)
+====
+for(var x = 0; x < 5; ++x) {
+    setTimeout(() => console.log(x)) // closes over the `x` which is logically positioned at the top of the enclosing scope, above the loop
+}
+console.log(x) // note: visible outside the loop
+====
+for(let x = 0; x < 5; ++x) {
+    setTimeout(() => console.log(x)) // `let` declarations are re-declared on a per-iteration basis, so the closures capture different variables
+}
+console.log(typeof x) // undefined
+====
+if(false) {
+    var x = 1
+}
+console.log(x) // here, `x` has been declared, but not initialised
+====
+for(let x = 0; x < 10; ++x) {} 
+console.log(typeof x) // undefined, because `x` is block-scoped
+====
+if(false) {
+    let x = 1
+}
+console.log(typeof x) // undefined, because `x` is block-scoped
+====
+// module1.js
+
+var x = 0
+export function f() {}
+
+//module2.js
+
+import f from 'module1.js'
+
+console.log(x) // throws ReferenceError
+
+====
+var x = 1
+console.log(window.hasOwnProperty('x')) // true
+====
+let x = 1
+console.log(window.hasOwnProperty('x')) // false
+====
+function f(x) {}
+console.log(typeof x) // undefined, because `x` is scoped to the function
+====
+try {} catch(e) {}
+console.log(typeof e) // undefined, because `e` is scoped to the catch block
+====
+(function foo() { console.log(foo) })()
+console.log(typeof foo) // undefined, because `foo` is scoped to its own expression
+====
+x = 1 // implicitly defined property on the global object (no "var"!)
+
+console.log(x) // 1
+console.log(window.hasOwnProperty('x')) // true
+====
+'use strict'
+{
+    function foo() {}
+}
+console.log(typeof foo) // undefined, because `foo` is block-scoped
+====
+// global scope
+var foo = 'global';
+var bar = 'global';
+var foobar = 'global';
+
+function outerFunc () {
+ // outerFunc scope
+ var foo = 'outerFunc';
+ var foobar = 'outerFunc';
+ innerFunc();
+ 
+ function innerFunc(){
+ // innerFunc scope
+  var foo = 'innerFunc';
+  console.log(foo);
+  console.log(bar);
+  console.log(foobar);
+  }
+}
+
+outerFunc();
+====
+let letVar = 'global';
+var varVar = 'global';
+
+function foo () {
+  
+  if (true) {
+    // this variable declared with let is scoped to the if block, block scoped
+    let letVar = 5;
+    // this variable declared with let is scoped to the function block, function scoped
+    var varVar = 10;
+  }
+  
+  console.log(letVar);
+  console.log(varVar);
+}
+
+
+foo();
+====
+var snapshot = …;
+
+if (typeof snaposhot === 'undefined') {
+    //         ^
+    // misspelled¹ – this will never run, but it won’t throw an error!
+}
+
+====
+var foo = …;
+
+if (typeof foo === 'undefned') {
+    //                   ^
+    // misspelled – this will never run, but it won’t throw an error!
+}
+
+====
+var foo = …;
+
+if (foo === undefined) {
+    ⋮
+}
+
+====
+if (typeof foo.bar === 'undefined') {
+    ⋮
+}
+
+====
+if (foo.bar === undefined) {
+    ⋮
+}
+
+====
+<scipt src="src/controllers/controller-name.controller.js"></script>
+
+====
+// to test someObject.someProperty
+var descriptor = Object.getOwnPropertyDescriptor(someObject, 'someProperty');
+
+if (typeof descriptor === 'undefined') {
+  // was never initialized
+} else if (typeof descriptor.value === 'undefined') {
+  if (descriptor.get || descriptor.set) {
+    // is an accessor property, defined via getter and setter
+  } else {
+    // is initialized with `undefined`
+  }
+} else {
+  // is initialized with some other value
+}
+
+====
+(function(undefined) {
+    var definedButNotInitialized;
+    definedAndInitialized = 3;
+    someObject = {
+        firstProp: "1"
+        , secondProp: false
+        // , undefinedProp not defined
+    }
+    // var notDefined;
+
+    var tests = [
+        'definedButNotInitialized in window',
+        'definedAndInitialized in window',
+        'someObject.firstProp in window',
+        'someObject.secondProp in window',
+        'someObject.undefinedProp in window',
+        'notDefined in window',
+
+        '"definedButNotInitialized" in window',
+        '"definedAndInitialized" in window',
+        '"someObject.firstProp" in window',
+        '"someObject.secondProp" in window',
+        '"someObject.undefinedProp" in window',
+        '"notDefined" in window',
+
+        'typeof definedButNotInitialized == "undefined"',
+        'typeof definedButNotInitialized === typeof undefined',
+        'definedButNotInitialized === undefined',
+        '! definedButNotInitialized',
+        '!! definedButNotInitialized',
+
+        'typeof definedAndInitialized == "undefined"',
+        'typeof definedAndInitialized === typeof undefined',
+        'definedAndInitialized === undefined',
+        '! definedAndInitialized',
+        '!! definedAndInitialized',
+
+        'typeof someObject.firstProp == "undefined"',
+        'typeof someObject.firstProp === typeof undefined',
+        'someObject.firstProp === undefined',
+        '! someObject.firstProp',
+        '!! someObject.firstProp',
+
+        'typeof someObject.secondProp == "undefined"',
+        'typeof someObject.secondProp === typeof undefined',
+        'someObject.secondProp === undefined',
+        '! someObject.secondProp',
+        '!! someObject.secondProp',
+
+        'typeof someObject.undefinedProp == "undefined"',
+        'typeof someObject.undefinedProp === typeof undefined',
+        'someObject.undefinedProp === undefined',
+        '! someObject.undefinedProp',
+        '!! someObject.undefinedProp',
+
+        'typeof notDefined == "undefined"',
+        'typeof notDefined === typeof undefined',
+        'notDefined === undefined',
+        '! notDefined',
+        '!! notDefined'
+    ];
+
+    var output = document.getElementById('results');
+    var result = '';
+    for(var t in tests) {
+        if( !tests.hasOwnProperty(t) ) continue; // bleh
+
+        try {
+            result = eval(tests[t]);
+        } catch(ex) {
+            result = 'Exception--' + ex;
+        }
+        console.log(tests[t], result);
+        output.innerHTML += "\n" + tests[t] + ": " + result;
+    }
+})();
+
+====
+definedButNotInitialized in window: true
+definedAndInitialized in window: false
+someObject.firstProp in window: false
+someObject.secondProp in window: false
+someObject.undefinedProp in window: true
+notDefined in window: Exception--ReferenceError: notDefined is not defined
+"definedButNotInitialized" in window: false
+"definedAndInitialized" in window: true
+"someObject.firstProp" in window: false
+"someObject.secondProp" in window: false
+"someObject.undefinedProp" in window: false
+"notDefined" in window: false
+typeof definedButNotInitialized == "undefined": true
+typeof definedButNotInitialized === typeof undefined: true
+definedButNotInitialized === undefined: true
+! definedButNotInitialized: true
+!! definedButNotInitialized: false
+typeof definedAndInitialized == "undefined": false
+typeof definedAndInitialized === typeof undefined: false
+definedAndInitialized === undefined: false
+! definedAndInitialized: false
+!! definedAndInitialized: true
+typeof someObject.firstProp == "undefined": false
+typeof someObject.firstProp === typeof undefined: false
+someObject.firstProp === undefined: false
+! someObject.firstProp: false
+!! someObject.firstProp: true
+typeof someObject.secondProp == "undefined": false
+typeof someObject.secondProp === typeof undefined: false
+someObject.secondProp === undefined: false
+! someObject.secondProp: true
+!! someObject.secondProp: false
+typeof someObject.undefinedProp == "undefined": true
+typeof someObject.undefinedProp === typeof undefined: true
+someObject.undefinedProp === undefined: true
+! someObject.undefinedProp: true
+!! someObject.undefinedProp: false
+typeof notDefined == "undefined": true
+typeof notDefined === typeof undefined: true
+notDefined === undefined: Exception--ReferenceError: notDefined is not defined
+! notDefined: Exception--ReferenceError: notDefined is not defined
+!! notDefined: Exception--ReferenceError: notDefined is not defined
+
+====
+if( typeof restResult.data[0] === "undefined" ) { throw  "Some error"; }
+
+====
+var a = obj.prop || defaultValue;
+
+====
+var yourFunction = function(config){
+
+   this.config = config || {};
+   this.yourConfigValue = config.yourConfigValue || 1;
+   console.log(this.yourConfigValue);
+}
+
+====
+yourFunction({yourConfigValue:2});
+//=> 2
+
+yourFunction();
+//=> 1
+
+yourFunction({otherProperty:5});
+//=> 1
+
+====
+var hasUndefinedProperty = function hasUndefinedProperty(obj, prop){
+  return ((prop in obj) && (typeof obj[prop] == 'undefined'));
+};
+
+====
+var a = { b : 1, e : null };
+a.c = a.d;
+
+hasUndefinedProperty(a, 'b'); // false: b is defined as 1
+hasUndefinedProperty(a, 'c'); // true: c is defined as undefined
+hasUndefinedProperty(a, 'd'); // false: d is undefined
+hasUndefinedProperty(a, 'e'); // false: e is defined as null
+
+// And now...
+delete a.c ;
+hasUndefinedProperty(a, 'c'); // false: c is undefined
+
+====
+var undefined ; undefined ; // undefined
+({}).a ;                    // undefined
+[].a ;                      // undefined
+''.a ;                      // undefined
+(function(){}()) ;          // undefined
+void(0) ;                   // undefined
+eval() ;                    // undefined
+1..a ;                      // undefined
+/a/.a ;                     // undefined
+(true).a ;                  // undefined
+
+====
+if (this.abc) 
+    alert("defined"); 
+else 
+    alert("undefined");
+
+abc = "abc";
+if (this.abc) 
+    alert("defined"); 
+else 
+    alert("undefined");
+====
+const userPhone = user?.contactDetails?.phone;
+
+====
+function isUndefined1(val) {
+    try {
+        val.a;
+    } catch (e) {
+        return /undefined/.test(e.message);
+    }
+    return false;
+}
+
+function isUndefined2(val) {
+    return !val && val+'' === 'undefined';
+}
+
+function isUndefined3(val) {
+    const defaultVal = {};
+    return ((input = defaultVal) => input === defaultVal)(val);
+}
+
+function test(func){
+    console.group(`test start :`+func.name);
+    console.log(func(undefined));
+    console.log(func(null));
+    console.log(func(1));
+    console.log(func("1"));
+    console.log(func(0));
+    console.log(func({}));
+    console.log(func(function () { }));
+    console.groupEnd();
+}
+test(isUndefined1);
+test(isUndefined2);
+test(isUndefined3);
+====
+function resolveUnknownProps(obj, resolveKey) {
+  const handler = {
+    get(target, key) {
+      if (
+        target[key] !== null &&
+        typeof target[key] === 'object'
+      ) {
+        return resolveUnknownProps(target[key], resolveKey);
+      } else if (!target[key]) {
+        return resolveUnknownProps({ [resolveKey]: true }, resolveKey);
+      }
+
+      return target[key];
+    },
+  };
+
+  return new Proxy(obj, handler);
+}
+
+const user = {}
+
+console.log(resolveUnknownProps(user, 'isUndefined').personalInfo.name.something.else); // { isUndefined: true }
+
+====
+const { isUndefined } = resolveUnknownProps(user, 'isUndefined').personalInfo.name.something.else;
+if (!isUndefined) {
+  // Do something
+}
+
+====
+var undefined;
+function isUndefined(value) {
+  return value === undefined;
+}
+
+====
+function isUndefined(value) {
+  return value === void 0;
+}
+
+====
+if (!variable){
+    // Do it if the variable is undefined
+}
+
+====
+if (variable){
+    // Do it if the variable is defined
+}
+
+====
+_.isUndefined(undefined) // => true
+_.isUndefined(null) // => false
+
+====
+const object = { 'a': { 'b': 2 } }
+
+_.has(object, 'a.b') // => true
+_.has(object, 'a.c') // => false
+
+====
+var handler = {
+  get: function(target, name) {
+    return name in target ? target[name] : 'N/A';
+  }
+};
+
+var p = new Proxy({}, handler);
+p.name = 'Kevin';
+console.log('Name: ' +p.name, ', Age: '+p.age, ', Gender: '+p.gender)
+
+====
+Name: Kevin , Age: N/A , Gender: N/A
+
+====
+if (key in obj) {
+  // Do something
+} else {
+  // Create key
+}
+
+const obj = {
+  0: 'abc',
+  1: 'def'
+}
+
+const hasZero = 0 in obj
+
+console.log(hasZero) // true
+
+====
+"propertyName" in containerObject && ""+containerObject["propertyName"] == "undefined";
+>> true \ false
+
+====
+containerObject = { propertyName: void "anything" }
+>> Object { propertyName: undefined }
+
+// Now the testing
+
+"propertyName" in containerObject && ""+containerObject["propertyName"] == "undefined";
+>> true
+
+/* Which makes sure that nonexistent property will not return a false positive
+ * unless it is previously defined  */
+
+"foo" in containerObject && ""+containerObject["foo"] == "undefined";
+>> false
+
+====
+var ojb ={
+    age: 12
+}
+
+if(ojb.hasOwnProperty('name')){
+    console.log('property exists and is not undefined');
+}
+
+====
+let obj = {
+  a: 666,
+  u: undefined // The 'u' property has value 'undefined'
+               // The 'x' property does not exist
+}
+
+console.log('>>> good results:');
+console.log('A', "u" in obj, "x" in obj);
+console.log('B', obj.hasOwnProperty("u"),      obj.hasOwnProperty("x"));
+
+console.log('\n>>> bad results:');
+console.log('C', obj.u === undefined,          obj.x === undefined);
+console.log('D', obj.u == undefined,           obj.x == undefined);
+console.log('E', obj["u"] === undefined,       obj["x"] === undefined);
+console.log('F', obj["u"] == undefined,        obj["x"] == undefined);
+console.log('G', !obj.u,                      !obj.x);
+console.log('H', typeof obj.u === 'undefined', typeof obj.x === 'undefined');
+====
+temp = x.copy()
+temp.update(y)
+
+====
+x | y
+
+====
+from collections import ChainMap
+from itertools import chain
+import perfplot
+
+
+def setup(n):
+    x = dict(zip(range(n), range(n)))
+    y = dict(zip(range(n, 2 * n), range(n, 2 * n)))
+    return x, y
+
+
+def copy_update(data):
+    x, y = data
+    temp = x.copy()
+    temp.update(y)
+    return temp
+
+
+def add_items(data):
+    x, y = data
+    return dict(list(x.items()) + list(y.items()))
+
+
+def curly_star(data):
+    x, y = data
+    return {**x, **y}
+
+
+def chain_map(data):
+    x, y = data
+    return dict(ChainMap({}, y, x))
+
+
+def itertools_chain(data):
+    x, y = data
+    return dict(chain(x.items(), y.items()))
+
+
+def python39_concat(data):
+    x, y = data
+    return x | y
+
+
+perfplot.show(
+    setup=setup,
+    kernels=[
+        copy_update,
+        add_items,
+        curly_star,
+        chain_map,
+        itertools_chain,
+        python39_concat,
+    ],
+    labels=[
+        "copy_update",
+        "dict(list(x.items()) + list(y.items()))",
+        "{**x, **y}",
+        "chain_map",
+        "itertools.chain",
+        "x | y",
+    ],
+    n_range=[2 ** k for k in range(15)],
+    xlabel="len(x), len(y)",
+    equality_check=None,
+)
+
+====
+z = {}
+z.update(x) or z.update(y)
+
+====
+// Run-Time function declaration 
+functionOne(); // Calling functionOne function here will give an Error
+var functionOne = function () {
+  // Some code
+};
+
+// Parse-Time function declaration 
+functionTwo(); // Calling functionTwo function will not give an Error
+function functionTwo() {
+  // Some code...
+}
+
+====
+if(o.myProperty === undefined) {
+  alert("myProperty value is the special value `undefined`");
+}
+
+====
+if(!o.hasOwnProperty('myProperty')) {
+  alert("myProperty does not exist");
+}
+
+====
+if(typeof myVariable === 'undefined') {
+  alert('myVariable is either the special value `undefined`, or it has not been declared');
+}
+
+====
+if(myVariable === void 0) {
+  alert("myVariable is the special value `undefined`");
+}
+
+====
+<script src="your_file.js"></script>
+
+====
+x = {'a': 1, 'b': 1}
+y = {'a': 2, 'c': 2}
+final = {**x, **y} 
+final
+# {'a': 2, 'b': 1, 'c': 2}
+
+====
+final = {'a': 1, 'b': 1, **x, **y}
+
+====
+d = {'spam': 1, 'eggs': 2, 'cheese': 3}
+e = {'cheese': 'cheddar', 'aardvark': 'Ethel'}
+d | e
+# {'spam': 1, 'eggs': 2, 'cheese': 'cheddar', 'aardvark': 'Ethel'}
+
+====
+// TypeError: functionOne is not a function
+functionOne();
+
+var functionOne = function() {
+  console.log("Hello!");
+};
+====
+// Outputs: "Hello!"
+functionTwo();
+
+function functionTwo() {
+  console.log("Hello!");
+}
+====
+'use strict';    
+{ // note this block!
+  function functionThree() {
+    console.log("Hello!");
+  }
+}
+functionThree(); // ReferenceError
+====
+{
+  "scripts": {
+    "gulp": "gulp main"
+  },
+  "dependencies": {
+    "@types/gulp": "^4.0.6",
+    "@types/gulp-concat",
+    "@types/gulp-typescript",
+    "gulp": "^4.0.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-resolve-dependencies": "^3.0.1",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "typescript": "^3.7.3"
+  }
+}
+
+====
+class SomeClass {
+    delay: number;
+}
+
+====
+/// <reference path="./someimport.ts" />
+
+someclass = new SomeClass();
+someclass.delay = 1;
+
+====
+var gulp = require("gulp");
+var concat = require('gulp-concat');
+var resolveDependencies = require('gulp-resolve-dependencies');
+
+var ts = require("gulp-typescript");
+var tsProject = ts.createProject("tsconfig.json");
+
+gulp.task("main", function() {
+  return gulp
+    .src(["src/main.ts"])
+    .pipe(resolveDependencies({
+      pattern: /^\s*\/\/\/\s*<\s*reference\s*path\s*=\s*(?:"|')([^'"\n]+)/gm
+    }))
+    .on('error', function(err) {
+        console.log(err.message);
+    })
+    .pipe(tsProject())
+    .pipe(concat('main.js'))
+    .pipe(gulp.dest("build/"));
+});
+
+====
+  return gulp
+    .src(["src/main.ts"])
+    .pipe(resolveDependencies({
+    ...
+// -->
+  return tsProject
+    .src()
+    .pipe(resolveDependencies({
+    ...
+
+====
+var gulp = require("gulp");
+var concat = require('gulp-concat');
+var resolveDependencies = require('gulp-resolve-dependencies');
+
+gulp.task("main", function() {
+  return gulp
+    .src(["src/main.js"])
+    .pipe(resolveDependencies({
+      pattern: /^\s*\/\/\/\s*<\s*reference\s*path\s*=\s*(?:"|')([^'"\n]+)/gm
+    }))
+    .on('error', function(err) {
+        console.log(err.message);
+    })
+    .pipe(concat('main.js'))
+    .pipe(gulp.dest("build/"));
+});
+
+====
+{
+  "scripts": {
+    "gulp": "gulp main"
+  },
+  "dependencies": {
+    "gulp": "^4.0.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-resolve-dependencies": "^3.0.1"
+  }
+}
+
+====
+class SomeClass {
+}
+/// <reference path="./someimport.ts" />
+someclass = new SomeClass();
+someclass.delay = 1;
+
+====
+<html>
+    <head>
+        <script src="main.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+            console.log(someclass.delay);
+        </script>
+    </body>
+</html>
+
+====
+myVariable === undefined
+
+====
+if (typeof someUndeclaredVariable == "undefined") {
+    // Works
+}
+
+if (someUndeclaredVariable === undefined) { 
+    // Throws an error
+}
+
+====
+>>> d = {'spam': 1, 'eggs': 2, 'cheese': 3}
+>>> e = {'cheese': 'cheddar', 'aardvark': 'Ethel'}
+>>> d | e
+{'spam': 1, 'eggs': 2, 'cheese': 'cheddar', 'aardvark': 'Ethel'}
+
+====
+>>> d |= e
+>>> d
+{'spam': 1, 'eggs': 2, 'cheese': 'cheddar', 'aardvark': 'Ethel'}
+
+====
+  let ddl = new Array();
+    if (subjects) {
+      subjects.forEach(function (s) {ddl.push({"id": s.id,"label": s.name});});
+    }
+
+====
+let arr = [1, 2, 3, 4, 5];
+
+let newArr = arr.map((element, index, array) => {
+  return element * 2;
+})
+
+console.log(arr);
+console.log(newArr);
+====
+let arr = [1, 2, 3, 4, 5];
+
+arr.forEach((element, index, array) => {
+
+  console.log(element * 2);
+
+  if (index === 4) {
+    console.log(array)
+  }
+  // index, and oldArray are provided as 2nd and 3th argument by the callback
+
+})
+
+console.log(arr);
+====
+let arr = [1, 2, 3, 4, 5];
+
+for(let element of arr) {
+  console.log(element * 2);
+}
+====
+let arr = [1, 2, 3, 4, 5];
+
+arr.foo = 'foo';
+
+for(let element of arr) {
+  console.log(element);
+}
+
+for(let element in arr) {
+  console.log(element);
+}
+====
+var foo = [object,object,object];
+for (var i = foo.length, item; item = foo[--i];) {
+    console.log(item);
+}
+
+====
+{
+    "type": "module"
+}
+
+====
+export function hello() {
+  return "Hello";
+}
+
+====
+import { hello } from './module.js';
+let val = hello();  // val is "Hello";
+
+====
+export function hello() {
+  return "Hello";
+}
+
+====
+import { hello } from './module.mjs';
+let val = hello();  // val is "Hello";
+
+====
+<script type="module">
+  import { hello } from './hello.mjs'; // Or it could be simply `hello.js`
+  hello('world');
+</script>
+
+====
+// hello.mjs -- or it could be simply `hello.js`
+export function hello(text) {
+  const div = document.createElement('div');
+  div.textContent = `Hello ${text}`;
+  document.body.appendChild(div);
+}
+
+====
+<script type="module">
+  import('hello.mjs').then(module => {
+      module.hello('world');
+    });
+</script>
+
+====
+// mymodule.js
+module.exports = {
+   hello: function() {
+      return "Hello";
+   }
+}
+
+====
+// server.js
+const myModule = require('./mymodule');
+let val = myModule.hello(); // val is "Hello"   
+
+====
+fetchInject([
+  'https://cdn.jsdelivr.net/momentjs/2.17.1/moment.min.js'
+]).then(() => {
+  console.log(`Finish in less than ${moment().endOf('year').fromNow(true)}`)
+})
+
+====
+$.getScript("my_lovely_script.js", function() {
+   alert("Script loaded but not necessarily executed.");
+});
+
+====
+function dynamicallyLoadScript(url) {
+    var script = document.createElement("script");  // create a script DOM node
+    script.src = url;  // set its src to the provided URL
+
+    document.head.appendChild(script);  // add it to the end of the head section of the page (could change 'head' to 'body' to add it to the end of the body section instead)
+}
+
+====
+var js = document.createElement("script");
+
+js.type = "text/javascript";
+js.src = jsFilePath;
+
+document.body.appendChild(js);
+
+var s = new MySuperObject();
+
+Error : MySuperObject is undefined
+
+====
+function loadScript(url, callback)
+{
+    // Adding the script tag to the head as suggested before
+    var head = document.head;
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = url;
+
+    // Then bind the event to the callback function.
+    // There are several events for cross browser compatibility.
+    script.onreadystatechange = callback;
+    script.onload = callback;
+
+    // Fire the loading
+    head.appendChild(script);
+}
+
+====
+var myPrettyCode = function() {
+   // Here, do whatever you want
+};
+
+====
+loadScript("my_lovely_script.js", myPrettyCode);
+
+====
+let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+//let arr = Array.from(Array(1000000), (x, i) => i%10);
+
+function Aa(a, s=0) {
+  for(let i=0; i<a.length; i++) {
+    s += a[i];
+  }
+  console.log('Aa=', s);
+}
+
+function Ab(a, s=0) {
+  let n = a.length;
+  for(let i=0; i<n; i++) {
+    s += a[i];
+  }
+  console.log('Ab=', s);
+}
+
+function Ac(a, s=0) {
+  for(let i=a.length; i--;) {
+    s += a[i];
+  }
+  console.log('Ac=', s);
+}
+
+function Ad(a, s=0) {
+  for(let x of a) {
+    s += x;
+  }
+  console.log('Ad=', s);
+}
+
+function Ae(a, s=0) {
+  for(let i in a) if (a.hasOwnProperty(i)) {
+    s += a[i];
+  }
+  console.log('Ae=', s);
+}
+
+function Ba(a, s=0) {
+  let i = -1;
+  while(++i < a.length) {
+    s+= a[i];
+  }
+  console.log('Ba=', s);
+}
+
+function Bb(a, s=0) {
+  let i = -1;
+  let n = a.length;
+  while(++i < n) {
+    s+= a[i];
+  }
+  console.log('Bb=', s);
+}
+
+function Bc(a, s=0) {
+  let i = a.length;
+  while(i--) {
+    s += a[i];
+  }
+  console.log('Bc=', s);
+}
+
+function Bd(a, s=0) {
+  let i = 0;
+  do {
+    s+= a[i]
+  } while (++i < a.length);
+  console.log('Bd=', s);
+}
+
+function Be(a, s=0) {
+  let i = 0;
+  let n = a.length;
+  do {
+    s += a[i]
+  } while (++i < n);
+  console.log('Be=', s);
+}
+
+function Bf(a, s=0) {
+  const it = a.values(); 
+  let e;
+  while (!(e = it.next()).done) { 
+    s+= e.value; 
+  }
+  console.log('Bf=', s);
+}
+
+function Ca(a, s=0) {
+  a.map(x => { s+=x });
+  console.log('Ca=', s);
+}
+
+function Cb(a, s=0) {
+  a.forEach(x => { s+=x });
+  console.log('Cb=', s);
+}
+
+function Cc(a, s=0) {
+  a.every(x => (s += x, 1));
+  console.log('Cc=', s);
+}
+
+function Cd(a, s=0) {
+  a.filter(x => { s+=x });
+  console.log('Cd=',s);
+}
+
+function Ce(a, s=0) {
+  a.reduce((z, c) => { s+=c }, 0);
+  console.log('Ce=', s);
+}
+
+function Cf(a, s=0) {
+  a.reduceRight((z, c) => { s += c }, 0);
+  console.log('Cf=', s);
+}
+
+function Cg(a, s=0) {
+  a.some(x => { s += x } );
+  console.log('Cg=', s);
+}
+
+function Ch(a, s=0) {
+  Array.from(a, x=> s += x);
+  console.log('Cc=', s);
+}
+
+
+Aa(arr);
+Ab(arr);
+Ac(arr);
+Ad(arr);
+Ae(arr);
+
+Ba(arr);
+Bb(arr);
+Bc(arr);
+Bd(arr);
+Be(arr);
+Bf(arr);
+
+Ca(arr);
+Cb(arr);
+Cc(arr);
+Cd(arr);
+Ce(arr);
+Cf(arr);
+Cg(arr);
+Ch(arr);
+====
+<p style="color: red">This snippets only PRESENTS code used for benchmark - it not perform test itself</p>
+====
+/* Get all forms */
+document.querySelectorAll( "form" ).forEach( form => {
+
+  /* For each form, add the onsubmit event */
+  form.addEventListener( "submit", event => {
+    event.preventDefault(); // Return false
+
+    /* Display it */
+    alert(event.target.action);
+    console.log(event.target);
+  } );
+
+} );
+====
+<form action="form1.php" >
+  <input type="submit" value="Submit" />
+</form>
+<form action="form2.php" >
+  <input type="submit" value="Submit" />
+</form>
+<form action="form3.php" >
+  <input type="submit" value="Submit" />
+</form>
+====
+theArray.forEach(function (array, index) {
+    console.log(index);
+    console.log(array);
+});
+
+====
+for(var i=0; i<theArray.length; i++) {
+    console.log(i)
+}
+
+====
+theArray.map(x => console.log(x));
+
+====
+theArray.filter(x => console.log(x));
+
+====
+for(var i = 0; i < 5; i++){
+  console.log(i);
+}
+
+// Output: 0,1,2,3,4
+
+====
+let obj = {"a":1, "b":2}
+
+for(let k in obj){
+  console.log(k)
+}
+
+// Output: a,b
+
+====
+let array = [1,2,3,4]
+
+array.forEach((x) => {
+  console.log(x);
+})
+
+// Output: 1,2,3,4
+
+====
+let array = [1,2,3,4]
+
+for(let x of array){
+  console.log(x);
+}
+
+// Output: 1,2,3,4
+
+====
+let x = 0
+
+while(x < 5){
+  console.log(x)
+  x++
+}
+
+// Output: 1,2,3,4
+
+====
+let x = 0
+
+do{
+  console.log(x)
+  x++
+}while(x < 5)
+
+// Output: 1,2,3,4
+
+====
+$.grep([0, 1, 2], function(n, i) {
+    return n > 0;
+});
+
+====
+if (typeof something != "undefined") {
+    // ...
+}
+
+====
+var myVariable = "Some text";
+
+====
+let myVariable = "Some text";
+
+====
+// i IS NOT known here
+// j IS NOT known here
+// k IS known here, but undefined
+// l IS NOT known here
+
+function loop(arr) {
+    // i IS known here, but undefined
+    // j IS NOT known here
+    // k IS known here, but has a value only the second time loop is called
+    // l IS NOT known here
+
+    for( var i = 0; i < arr.length; i++ ) {
+        // i IS known here, and has a value
+        // j IS NOT known here
+        // k IS known here, but has a value only the second time loop is called
+        // l IS NOT known here
+    };
+
+    // i IS known here, and has a value
+    // j IS NOT known here
+    // k IS known here, but has a value only the second time loop is called
+    // l IS NOT known here
+
+    for( let j = 0; j < arr.length; j++ ) {
+        // i IS known here, and has a value
+        // j IS known here, and has a value
+        // k IS known here, but has a value only the second time loop is called
+        // l IS NOT known here
+    };
+
+    // i IS known here, and has a value
+    // j IS NOT known here
+    // k IS known here, but has a value only the second time loop is called
+    // l IS NOT known here
+}
+
+loop([1,2,3,4]);
+
+for( var k = 0; k < arr.length; k++ ) {
+    // i IS NOT known here
+    // j IS NOT known here
+    // k IS known here, and has a value
+    // l IS NOT known here
+};
+
+for( let l = 0; l < arr.length; l++ ) {
+    // i IS NOT known here
+    // j IS NOT known here
+    // k IS known here, and has a value
+    // l IS known here, and has a value
+};
+
+loop([1,2,3,4]);
+
+// i IS NOT known here
+// j IS NOT known here
+// k IS known here, and has a value
+// l IS NOT known here
+
+====
+<button onclick="foo()"></button>
+
+====
+window.addEventListener('DOMContentLoaded', () => {
+  function foo() {
+    console.log('foo running');
+  }
+});
+====
+<button onclick="foo()">click</button>
+====
+function foo() {
+  console.log('foo running');
+}
+document.querySelector('.my-button').addEventListener('click', foo);
+====
+<button class="my-button">click</button>
+====
+<script>
+const foo = 'foo';
+</script>
+<script>
+console.log(foo);
+</script>
+====
+<script type="module">
+const foo = 'foo';
+</script>
+<script>
+// Can't access foo here, because the other script is a module
+console.log(typeof foo);
+</script>
+====
+import json
+import yaml
+import time
+from ast import literal_eval as literal
+
+def merge_two_dicts(x, y):
+    z = x.copy()   # start with x's keys and values
+    z.update(y)    # modifies z with y's keys and values & returns None
+    return z
+
+x = {'a':1, 'b': 2}
+y = {'b':10, 'c': 11}
+
+start = time.time()
+for i in range(10000):
+    z = yaml.load((str(x)+str(y)).replace('}{',', '))
+elapsed = (time.time()-start)
+print (elapsed, z, 'stringify yaml')
+
+start = time.time()
+for i in range(10000):
+    z = literal((str(x)+str(y)).replace('}{',', '))
+elapsed = (time.time()-start)
+print (elapsed, z, 'stringify literal')
+
+start = time.time()
+for i in range(10000):
+    z = eval((str(x)+str(y)).replace('}{',', '))
+elapsed = (time.time()-start)
+print (elapsed, z, 'stringify eval')
+
+start = time.time()
+for i in range(10000):
+    z = {k:int(v) for k,v in (dict(zip(
+            ((str(x)+str(y))
+            .replace('}',' ')
+            .replace('{',' ')
+            .replace(':',' ')
+            .replace(',',' ')
+            .replace("'",'')
+            .strip()
+            .split('  '))[::2], 
+            ((str(x)+str(y))
+            .replace('}',' ')
+            .replace('{',' ').replace(':',' ')
+            .replace(',',' ')
+            .replace("'",'')
+            .strip()
+            .split('  '))[1::2]
+             ))).items()}
+elapsed = (time.time()-start)
+print (elapsed, z, 'stringify replace')
+
+start = time.time()
+for i in range(10000):
+    z = json.loads(str((str(x)+str(y)).replace('}{',', ').replace("'",'"')))
+elapsed = (time.time()-start)
+print (elapsed, z, 'stringify json')
+
+start = time.time()
+for i in range(10000):
+    z = merge_two_dicts(x, y)
+elapsed = (time.time()-start)
+print (elapsed, z, 'accepted')
+
+====
+7.693928956985474 {'c': 11, 'b': 10, 'a': 1} stringify yaml
+0.29134678840637207 {'c': 11, 'b': 10, 'a': 1} stringify literal
+0.2208399772644043 {'c': 11, 'b': 10, 'a': 1} stringify eval
+0.1106564998626709 {'c': 11, 'b': 10, 'a': 1} stringify replace
+0.07989692687988281 {'c': 11, 'b': 10, 'a': 1} stringify json
+0.005082368850708008 {'c': 11, 'b': 10, 'a': 1} accepted
+
+====
+const arr = ['a', 'b', 'c'];
+
+for (const v of arr) {
+  console.log(v); // Prints "a", "b", "c"
+}
+====
+let theArray= [1,3,2];
+
+theArray.forEach((element) => {
+  // Use the element of the array
+  console.log(element)
+}
+
+====
+1
+3
+2
+
+====
+for (let i=0; i<theArray.length; i++) {
+  console.log(i); // i will have the value of each index
+}
+
+====
+//set array to be updated when we add or remove plugin files
+var pluginNames = ["lettering", "fittext", "butterjam", etc.];
+
+//one script tag for each plugin
+$.each(pluginNames, function(){
+    $('head').append('<script src="js/plugins/' + this + '.js"></script>');
+});
+
+====
+merge_dicts = lambda old, new: old.update(new) or old
+
+====
+def merge_dicts(old, new):
+    return {**old, **new} 
+
+====
+def merge_dicts(old, new):
+    merged = old.copy()
+    merged.update(new)
+    return merged
+
+====
+old = {'name': 'Kevin', 'phone_number': '+33 12 34 45 67'}
+new = {'name': 'Kevin', 'phone_number': '+33 88 88 88 88'}
+
+print(merge_dicts(old, new))
+
+====
+{'name': 'Kevin', 'phone_number': '+33 88 88 88 88'}
+
+====
+def merge_dicts(old, news):
+    merged = old.copy()
+    for new in news:
+        merged.update(new)
+    return merged
+
+====
+old = {'name': 'Kevin', 'phone_number': '+33 12 34 45 67'}
+new_01 = {'name': 'Kevin', 'phone_number': '+33 77 77 77 77', 'age': 28}
+new_02 = {'name': 'SabK', 'phone_number': '+33 88 88 88 89'}
+new_03 = {'phone_number': '+33 99 99 99 99'}
+
+print(merge_dicts(old, [new_01, new_02, new_03]))
+
+====
+{'phone_number': '+33 99 99 99 99', 'age': 28, 'name': 'SabK'}
+
+====
+// global scope
+var theFu; // theFu has been declared, but its value is undefined
+typeof theFu; // "undefined"
+
+====
+"theFu" in window; // true
+"theFoo" in window; // false
+
+====
+if (typeof myVar !== 'undefined')
+
+====
+window.undefined = "foo";
+"foo" == undefined // true
+
