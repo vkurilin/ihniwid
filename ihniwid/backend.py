@@ -1,73 +1,47 @@
-import sys
-import urllib.parse
-from typing import Optional
-
 import requests
 from bs4 import BeautifulSoup
-from stackapi import StackAPI
+
+from .captcha import CaptchaError
+from .answer import Answer
+from .question import Question
+
+
+__all__ = ('find_code_suggestions',)
+
 
 
 def is_question_link(tag) -> bool:
-    return tag.name == 'a' and tag.has_attr('class') and 'question-hyperlink' in tag['class']
+    return (
+        tag.name == 'a' and
+        tag.has_attr('class') and
+        'question-hyperlink' in tag['class'] and
+        'js-gps-track' not in tag['class'] and
+        'title' in tag.attrs
+    )
 
 
-def question_url_to_id(url: str) -> Optional[int]:
-    parsed = urllib.parse.urlparse(url)
-    if parsed.hostname and parsed.hostname != 'stackoverflow.com':
-        return None
-    parts: list[str] = parsed.path.split('/')
-    if len(parts) < 3:
-        return None
-    if parts[0] != '' or parts[1] != 'questions':
-        return None
-    return int(parts[2])
-
-
-def question_ids(soup):
+def extract_questions(soup):
     for tag in soup.find_all(is_question_link):
-        question_url = tag['href']
-        id = question_url_to_id(question_url)
-        if id:
-            yield id
+        yield Question(
+            url=tag['href'],
+            text=tag['title'],
+        )
 
 
-def answers(site, soup):
-    for chunk in chunks(question_ids(soup), size=100):
-        yield from site.fetch('questions/{ids}/answers', ids=chunk, filter='withbody')['items']
-
-
-def extract_code_blocks(answer):
-    soup = BeautifulSoup(answer['body'], 'html.parser')
-    for tag in soup.find_all('pre'):
-        yield str(tag.code.string)
-
-
-def foo(term: str):
+def find_code_suggestions(term: str):
+    # Make a query to the search page.
     params = {'q': term}
     response = requests.get(f'https://stackoverflow.com/search', params=params)
     if 'nocaptcha' in response.url:
-        print('Oh noes! Please solve this captcha:', response.url, file=sys.stderr)
-        return
+        raise CaptchaError(response.url)
+
+    # Parse the response.
     soup = BeautifulSoup(response.text, 'html.parser')
-    for answer in answers(StackAPI('stackoverflow'), soup):
-        for code_block in extract_code_blocks(answer):
-            print('====')
-            print(code_block)
+    questions = dict()
+    for question in extract_questions(soup):
+        question_id = question.id()
+        if question.id is not None:
+            questions[question_id] = question
 
-
-def chunks(it, size: int):
-    """Group iterator items into chunks of given size.
-
-    This is like https://doc.rust-lang.org/std/primitive.slice.html#method.chunks,
-    or the grouper example from itertools.
-    """
-
-    l = []
-    for item in it:
-        l.append(item)
-        if len(l) == size:
-            yield l
-            l = []
-    if l:
-        # The last chunk may be shorter than the other ones.
-        yield l
+    for answer in Answer.fetch_answers(questions.keys()):
+        yield from answer.code_suggestions(questions)
