@@ -31,7 +31,16 @@ def extract_questions(soup):
 def find_code_suggestions(term: str):
     # Make a query to the search page.
     params = {'q': term}
-    response = requests.get(f'https://stackoverflow.com/search', params=params)
+    headers = {
+        'User-Agent': 'Mozilla/5.0 AppleWebKit/605.1.15 '
+                    '(KHTML, like Gecko) '
+                    'Version/14.0 Safari/605.1.15'
+    }
+    response = requests.get(
+        'https://stackoverflow.com/search',
+        params=params,
+        headers=headers,
+    )
     if 'nocaptcha' in response.url:
         raise CaptchaError(response.url)
 

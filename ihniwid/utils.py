@@ -1,4 +1,4 @@
-__all__ = ('chunks',)
+__all__ = ('chunks', 'last')
 
 
 def chunks(it, size: int):
@@ -17,3 +17,11 @@ def chunks(it, size: int):
     if l:
         # The last chunk may be shorter than the other ones.
         yield l
+
+
+def last(it, default=None):
+    """Get the last value from an iterator."""
+    value = default
+    for value in it:
+        pass
+    return value
