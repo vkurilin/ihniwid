@@ -1,16 +1,16 @@
 import gc
 import traceback
-from types import FunctionType
 from itertools import islice
+from types import FunctionType
 
-from IPython.core.magic import Magics, magics_class, line_magic
+from IPython.core.magic import Magics, line_magic, magics_class
 from IPython.display import display
 
-from .utils import last
-from .captcha import CaptchaError
 from .backend import find_code_suggestions
+from .captcha import CaptchaError
+from .utils import last
 
-__all__ = ('MyMagics',)
+__all__ = ("MyMagics",)
 
 
 @magics_class
@@ -27,14 +27,13 @@ class MyMagics(Magics):
         else:
             term = self.build_term_from_last_exception()
             if not term:
-                print('No exception has been thrown yet!')
-                print('Tip: you can specify a search term explicitly.')
+                print("No exception has been thrown yet!")
+                print("Tip: you can specify a search term explicitly.")
                 return None
 
         # Do search.
         for suggestion in islice(find_code_suggestions(term), 10):
             display(suggestion)
-
 
     def build_term_from_last_exception(self):
         try:
@@ -51,14 +50,14 @@ class MyMagics(Magics):
             self.last_exc_info = exc_type, exc_value, tb
 
         # Take at most 7 words from the exception description.
-        message = ' '.join(islice(str(exc_value).split(), 7))
-        print('message is', message)
-        term = exc_type.__name__ + ': ' + message
+        message = " ".join(islice(str(exc_value).split(), 7))
+        print("message is", message)
+        term = exc_type.__name__ + ": " + message
         # Prepend the module name, if any.
         last_frame, lineno = last(traceback.walk_tb(tb))
         nearest_module_name = self.find_module_name(last_frame.f_code)
         if nearest_module_name:
-            term = f'{nearest_module_name}: {term}'
+            term = f"{nearest_module_name}: {term}"
         return term
 
     @staticmethod
@@ -70,13 +69,13 @@ class MyMagics(Magics):
         """
         # First, look for a function that references this code object.
         functions = (
-            function for function in gc.get_referrers(code)
+            function
+            for function in gc.get_referrers(code)
             if isinstance(function, FunctionType)
-            and getattr(function, '__code__') is code
+            and getattr(function, "__code__") is code
         )
         function = next(functions, None)
         if function is None:
             return None
         # Now, we can just fetch the module name from the function.
         return function.__module__
-
