@@ -1,10 +1,12 @@
+import jsonpickle
 import pytest
 import requests
 
-from ihniwid.backend import foo
+from ihniwid.backend import find_code_suggestions
+from ihniwid.captcha import CaptchaError
 
 
-def test_nocaptcha(requests_mock, capsys):
+def test_nocaptcha(requests_mock):
     def custom_matcher(request):
         if (
             request.url
@@ -18,16 +20,15 @@ def test_nocaptcha(requests_mock, capsys):
 
     requests_mock._adapter.add_matcher(custom_matcher)
 
-    foo("undefined is not a function")
+    with pytest.raises(CaptchaError) as excinfo:
+        list(find_code_suggestions("undefined is not a function"))
 
-    captured = capsys.readouterr()
-    assert (
-        "Oh noes! Please solve this captcha: https://stackoverflow.com/nocaptcha?s=a9596900-03df-4660-88f5-03949ed99dad"
-        in captured.err
+    assert excinfo.value.args == (
+        "https://stackoverflow.com/nocaptcha?s=a9596900-03df-4660-88f5-03949ed99dad",
     )
 
 
-def test_undefined_is_not_a_function(requests_mock, capsys):
+def test_undefined_is_not_a_function(requests_mock):
     def read_api_questions_page(i):
         with open(
             f"test/mocked_requests/undefined-is-not-a-function/api-questions-by-ids-page{i}.json"
@@ -54,12 +55,14 @@ def test_undefined_is_not_a_function(requests_mock, capsys):
             text=api_search.read(),
         )
 
-    with pytest.raises(AttributeError):
-        foo("undefined is not a function")
-
-    captured = capsys.readouterr()
+    actual_answers = find_code_suggestions("undefined is not a function")
 
     with open(
         "test/mocked_requests/undefined-is-not-a-function/output.txt", "r"
-    ) as output:
-        assert captured.out.replace("\r", "") == output.read()
+    ) as expected_answers:
+        expected_answers = jsonpickle.decode(expected_answers.read())
+        assert len(expected_answers) == 762
+        for expected, actual in zip(expected_answers, actual_answers):
+            assert expected.answer_link == actual.answer_link
+            assert expected.question_text == actual.question_text
+            assert expected.raw_code == actual.raw_code
