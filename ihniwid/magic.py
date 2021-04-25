@@ -1,3 +1,4 @@
+"""Ipython line magic."""
 import gc
 import traceback
 from itertools import islice

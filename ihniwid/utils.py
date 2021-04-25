@@ -1,4 +1,4 @@
-__all__ = ('chunks', 'last')
+__all__ = ("chunks", "last")
 
 
 def chunks(it, size: int):
@@ -7,16 +7,15 @@ def chunks(it, size: int):
     This is like https://doc.rust-lang.org/std/primitive.slice.html#method.chunks,
     or the grouper example from itertools.
     """
-
-    l = []
+    lst = []
     for item in it:
-        l.append(item)
-        if len(l) == size:
-            yield l
-            l = []
-    if l:
+        lst.append(item)
+        if len(lst) == size:
+            yield lst
+            lst = []
+    if lst:
         # The last chunk may be shorter than the other ones.
-        yield l
+        yield lst
 
 
 def last(it, default=None):

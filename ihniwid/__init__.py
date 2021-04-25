@@ -1,3 +1,4 @@
+"""A simple tool that will try to find answers on stackoverflow for you."""
 import gettext
 
 from .magic import MyMagics

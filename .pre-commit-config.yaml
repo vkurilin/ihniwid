@@ -24,6 +24,13 @@ repos:
     types: [python]
     exclude: setup.py
 
+  - id: pydocstyle
+    name: pydocstyle
+    stages: [commit]
+    language: system
+    entry: poetry run pydocstyle --ignore D100,D101,D102,D103,D104,D107,D213
+    types: [python]
+
   - id: mypy
     name: mypy
     stages: [commit]
