@@ -51,7 +51,6 @@ class MyMagics(Magics):
 
         # Take at most 7 words from the exception description.
         message = " ".join(islice(str(exc_value).split(), 7))
-        print("message is", message)
         term = exc_type.__name__ + ": " + message
         # Prepend the module name, if any.
         last_frame, lineno = last(traceback.walk_tb(tb))

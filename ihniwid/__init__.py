@@ -1,7 +1,10 @@
+import gettext
+
 from .magic import MyMagics
 
+gettext.install("ihniwid", "locale")
 
-__all__ = ('load_ipython_extension',)
+__all__ = ("load_ipython_extension",)
 
 
 def load_ipython_extension(ipython):
