@@ -1,9 +1,11 @@
 """A simple tool that will try to find answers on stackoverflow for you."""
 import gettext
+from pathlib import Path
 
 from .magic import MyMagics
 
-gettext.install("ihniwid", "locale")
+path_to_locale_dir = Path(__path__[0]) / "locale"  # type: ignore # noqa
+gettext.install("ihniwid", path_to_locale_dir)
 
 __all__ = ("load_ipython_extension",)
 

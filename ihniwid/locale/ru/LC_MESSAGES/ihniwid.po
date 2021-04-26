@@ -25,7 +25,7 @@ msgstr "О нет!"
 
 #: ihniwid/captcha.py:8
 msgid "StackOverflow suspects me of being a robot (rightfully so!)"
-msgstr "StackOverflow подозрвевает что мы робот (и не зря!)"
+msgstr "StackOverflow подозревает, что мы робот (и не зря!)"
 
 #: ihniwid/captcha.py:9
 msgid "Please solve <a href=\"{}\">this captcha</a> and then try again."
@@ -33,5 +33,5 @@ msgstr "Будет круто зарешать <a href=\"{}\">эту капчу<
 
 #: ihniwid/code_suggestion.py:3
 msgid "From"
-msgstr "Из ответа"
+msgstr "Из вопроса"
 
