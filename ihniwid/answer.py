@@ -1,13 +1,11 @@
 from bs4 import BeautifulSoup
-
 from stackapi import StackAPI
 
-from .utils import chunks
-from .question import Question
 from .code_suggestion import CodeSuggestion
+from .question import Question
+from .utils import chunks
 
-
-__all__ = ('Answer',)
+__all__ = ("Answer",)
 
 
 class Answer:
@@ -15,14 +13,14 @@ class Answer:
         self.raw = raw
 
     def link(self) -> str:
-        return 'https://stackoverflow.com/a/' + str(self.raw['answer_id'])
+        return "https://stackoverflow.com/a/" + str(self.raw["answer_id"])
 
     def question_id(self) -> int:
-        return self.raw['question_id']
+        return self.raw["question_id"]
 
     def code_suggestions(self, questions: dict[int, Question]):
-        soup = BeautifulSoup(self.raw['body'], 'html.parser')
-        for tag in soup.find_all('pre'):
+        soup = BeautifulSoup(self.raw["body"], "html.parser")
+        for tag in soup.find_all("pre"):
             if not tag.code:
                 continue
             raw_code = str(tag.code.string)
@@ -39,13 +37,11 @@ class Answer:
 
         We use the official API for this.
         """
-        api = StackAPI('stackoverflow')
+        api = StackAPI("stackoverflow")
         # We can submit up to 100 questions at a time.
         for chunk in chunks(question_ids, size=100):
             raw_answers = api.fetch(
-                'questions/{ids}/answers',
-                ids=chunk,
-                filter='withbody'
-            )['items']
+                "questions/{ids}/answers", ids=chunk, filter="withbody"
+            )["items"]
             for raw_answer in raw_answers:
                 yield Answer(raw_answer)

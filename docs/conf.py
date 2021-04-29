@@ -18,9 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = "ihniwid"
-copyright = (
-    "2021, Vladimir Kurilin, Sergey Bugaev"
-)
+copyright = "2021, Vladimir Kurilin, Sergey Bugaev"
 author = "Vladimir Kurilin, Sergey Bugaev"
 
 # The full version, including alpha/beta/rc tags
