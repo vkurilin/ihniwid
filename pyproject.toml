@@ -26,6 +26,7 @@ pylint = "^2.7.4"
 jupyter = "^1.0.0"
 jsonpickle = "^2.0.0"
 Babel = "^2.9.0"
+Sphinx = "^3.5.4"
 
 
 [build-system]
