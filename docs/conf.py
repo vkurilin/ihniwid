@@ -17,11 +17,11 @@
 
 # -- Project information -----------------------------------------------------
 
-project = "Ihniwid"
+project = "ihniwid"
 copyright = (
-    "2021, Vladimir Kurilin <vkurilin@smartdec.ru>, Sergey Bugaev <bugaevc@gmail.com>"
+    "2021, Vladimir Kurilin, Sergey Bugaev"
 )
-author = "Vladimir Kurilin <vkurilin@smartdec.ru>, Sergey Bugaev <bugaevc@gmail.com>"
+author = "Vladimir Kurilin, Sergey Bugaev"
 
 # The full version, including alpha/beta/rc tags
 release = "0.3.0"
