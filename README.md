@@ -41,7 +41,7 @@ $ poetry run pre-commit install -t pre-push
 To build the Sphinx documentation, run:
 ```sh
 $ cd docs
-$ poery run make html
+$ poetry run make html
 ```
 
 Then open `_build/html/index.html` in your web browser.
