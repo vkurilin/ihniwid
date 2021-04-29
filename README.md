@@ -3,35 +3,37 @@
 i have no idea what i'm doing
 ----------
 
-A simple tool that will try to find answers on [stackoverflow](https://stackoverflow.com) for you.
+A simple tool that will try to find answers on [Stack Overflow](https://stackoverflow.com) for you.
 
 ## Participants:
+
 * Sergey Bugaev, 620, login: bugaevc
 * Vladimir Kurilin, 620, login: vkurilin
 
 ## Formulation of the problem
-Create a tool that automates the basic search for a solution of your problem on a stackoverflow. 
+
+Create a tool that automates the basic search for a solution of your problem on Stack Overflow. 
 
 Rough equivalent for 
 
 ![try-catch-stackoverflow](https://github.com/vkurilin/ihniwid/blob/main/description/try-catch-stackoverflow.png)
 
-The base intended interface for displaying search results is the html-code which should work just well with jupiter notebook cell.
+The base intended interface for displaying search results is the HTML code which should work just well with Jupyter notebook cell.
 
 
 ## Interface model:
 
 Intended use case:
-![go-fuck-yourself](https://github.com/vkurilin/ihniwid/blob/main/description/interface-model.png)
+![](https://github.com/vkurilin/ihniwid/blob/main/description/interface-model.png)
 
 ## Setup
 ```sh
 # Install dependencies
-pipenv install --dev
+$ poetry install
 
 # Setup pre-commit and pre-push hooks
-pipenv run pre-commit install -t pre-commit
-pipenv run pre-commit install -t pre-push
+$ poetry run pre-commit install -t pre-commit
+$ poetry run pre-commit install -t pre-push
 ```
 
 ## Credits
